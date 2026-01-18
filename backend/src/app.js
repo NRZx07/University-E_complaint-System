@@ -10,6 +10,7 @@ import testRoutes from "./routes/test.routes.js";
 import facultyRoutes from "./routes/faculty.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import aiRoutes from "./routes/aiRoutes.js";
+import testRoutes from "./routes/test.routes.js";
 
 const app = express();
 
@@ -43,5 +44,7 @@ app.use("/api/test", testRoutes);
 app.use("/api/faculty", facultyRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/test", testRoutes);
+
 
 export default app;

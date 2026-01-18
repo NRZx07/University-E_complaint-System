@@ -21,7 +21,9 @@ app.use(cookieParser());
 /* ✅ CORS */
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173",
+      "https://university-e-complaint-system-8qwy0cfg6.vercel.app/",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

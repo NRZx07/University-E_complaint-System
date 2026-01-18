@@ -24,58 +24,47 @@ A modern, professional university complaint management system built with React, 
 - **Charts**: Chart.js with react-chartjs-2
 
 ## Project Structure
-
 ```
 university-complaint-system/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── Navbar.jsx
-│   │   └── Footer.jsx
-│   ├── context/
-│   │   └── AuthContext.jsx
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── Login.jsx
-│   │   ├── Register.jsx
-│   │   ├── StudentDashboard.jsx
-│   │   ├── FacultyDashboard.jsx
-│   │   ├── AdminDashboard.jsx
-│   │   └── Profile.jsx
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-├── postcss.config.js
-└── README.md
-
-backend/
-├── src/
-│ ├── config/
-│ │ ├── db.js
-│ │ └── env.js
-│ ├── models/
-│ │ ├── User.js
-│ │ └── Complaint.js
-│ ├── routes/
-│ │ ├── auth.routes.js
-│ │ ├── complaint.routes.js
-│ │ └── admin.routes.js
-│ ├── controllers/
-│ │ ├── auth.controller.js
-│ │ ├── complaint.controller.js
-│ │ └── admin.controller.js
-│ ├── middleware/
-│ │ ├── auth.middleware.js
-│ │ └── role.middleware.js
-│ ├── app.js
-│ └── server.js
-├── package.json
-└── .env
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx
+│   │   │   └── Footer.jsx
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── StudentDashboard.jsx
+│   │   │   ├── FacultyDashboard.jsx
+│   │   │   ├── AdminDashboard.jsx
+│   │   │   └── Profile.jsx
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── README.md
+│
+└── backend/
+    ├── src/
+    │   ├── config/
+    │   ├── models/
+    │   ├── routes/
+    │   ├── controllers/
+    │   ├── middleware/
+    │   ├── app.js
+    │   └── server.js
+    ├── package.json
+    └── .env
 ```
+
 
 ## Installation & Setup
 

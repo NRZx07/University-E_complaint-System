@@ -52,7 +52,7 @@ university-complaint-system/
 ├── postcss.config.js
 └── README.md
 ```
-
+```
 backend/
 ├── src/
 │ ├── config/
@@ -76,6 +76,7 @@ backend/
 │ └── server.js
 ├── package.json
 └── .env
+```
 
 ## Installation & Setup
 

@@ -10,7 +10,6 @@ import testRoutes from "./routes/test.routes.js";
 import facultyRoutes from "./routes/faculty.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import aiRoutes from "./routes/aiRoutes.js";
-import testRoutes from "./routes/test.routes.js";
 
 const app = express();
 
@@ -22,7 +21,8 @@ app.use(cookieParser());
 /* ✅ CORS */
 app.use(
   cors({
-    origin: ["http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
       "https://university-e-complaint-system-8qwy0cfg6.vercel.app",
     ],
     credentials: true,
@@ -31,7 +31,7 @@ app.use(
   })
 );
 
-/* ✅ (Optional) preflight for Express v5 - only regex works */
+/* ✅ preflight for Express v5 */
 app.options(/.*/, cors());
 
 /* ✅ Static file serving */
@@ -44,7 +44,5 @@ app.use("/api/test", testRoutes);
 app.use("/api/faculty", facultyRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/ai", aiRoutes);
-app.use("/api/test", testRoutes);
-
 
 export default app;

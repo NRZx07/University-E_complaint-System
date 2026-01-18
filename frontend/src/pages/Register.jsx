@@ -43,7 +43,9 @@ const Register = () => {
         department: formData.department,
       };
 
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         credentials: "include", // ✅ REQUIRED for cookie auth
         headers: { "Content-Type": "application/json" },

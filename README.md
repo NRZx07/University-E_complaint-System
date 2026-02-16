@@ -24,6 +24,7 @@ A modern, professional university complaint management system built with React, 
 - **Charts**: Chart.js with react-chartjs-2
 
 ## Project Structure
+
 ```
 university-complaint-system/
 ├── frontend/
@@ -64,7 +65,6 @@ university-complaint-system/
     ├── package.json
     └── .env
 ```
-
 
 ## Installation & Setup
 
@@ -131,20 +131,17 @@ university-complaint-system/
 ## Key Pages
 
 1. **Landing Page** (`/`)
-
    - Hero section with gradient background
    - Statistics cards
    - Features showcase
    - Call-to-action buttons
 
 2. **Authentication** (`/login`, `/register`)
-
    - Login with role selection
    - Registration with role-specific fields
    - Form validation
 
 3. **Dashboards**
-
    - Student: `/student/dashboard`
    - Faculty: `/faculty/dashboard`
    - Admin: `/admin/dashboard`
@@ -280,4 +277,4 @@ Built with ❤️ using React, Vite, and Tailwind CSS
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: 2024-01-20
+**Last Updated**: 2025-01-09

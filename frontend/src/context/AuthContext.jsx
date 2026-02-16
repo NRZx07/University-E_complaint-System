@@ -2,16 +2,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
 
-  // ✅ Computed value to tell other pages if we are logged in
   const isAuthenticated = !!user;
 
   const checkAuth = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/me", {
+      const res = await fetch(`${API_BASE}/api/auth/me`, {
         method: "GET",
         credentials: "include",
       });
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch(`${API_BASE}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -51,7 +52,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    // I ONLY ADDED 'isAuthenticated' BELOW. EVERYTHING ELSE IS YOUR ORIGINAL CODE.
     <AuthContext.Provider
       value={{ user, isAuthenticated, login, logout, loadingAuth }}
     >

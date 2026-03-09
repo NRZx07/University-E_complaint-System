@@ -13,6 +13,7 @@ import {
   ArcElement,
   PointElement,
   LineElement,
+  Filler,
 } from "chart.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
 
@@ -25,10 +26,11 @@ ChartJS.register(
   Legend,
   ArcElement,
   PointElement,
-  LineElement
+  LineElement,
+  Filler,
 );
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -161,7 +163,7 @@ const AdminDashboard = () => {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ facultyId: assignToFaculty }),
-        }
+        },
       );
 
       const data = await res.json();
@@ -187,7 +189,7 @@ const AdminDashboard = () => {
   // ✅ Delete faculty (SAFE)
   const handleDeleteFaculty = async (facultyId) => {
     const ok = window.confirm(
-      "Delete this faculty? (Blocked if any pending/in-progress complaints exist)"
+      "Delete this faculty? (Blocked if any pending/in-progress complaints exist)",
     );
     if (!ok) return;
 
@@ -225,7 +227,7 @@ const AdminDashboard = () => {
         {
           method: "PUT",
           credentials: "include",
-        }
+        },
       );
 
       const data = await res.json();
@@ -693,7 +695,7 @@ const AdminDashboard = () => {
 
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                            complaint.status
+                            complaint.status,
                           )}`}
                         >
                           {complaint.status}
@@ -701,7 +703,7 @@ const AdminDashboard = () => {
 
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(
-                            complaint.priority
+                            complaint.priority,
                           )}`}
                         >
                           {complaint.priority}
@@ -724,37 +726,50 @@ const AdminDashboard = () => {
 
                     {/* Actions */}
                     <div className="mt-4 md:mt-0 md:ml-4 flex flex-col gap-2">
-                      {complaint.status !== "Resolved" ? (
-                        <button
-                          onClick={() => {
-                            setSelectedComplaint(complaint);
-                            setAssignToFaculty(complaint.assignedToId || "");
-                            setAiSuggestion(null);
-                          }}
-                          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
-                        >
-                          Assign Faculty
-                        </button>
-                      ) : (
+                      {complaint.status === "Resolved" ? (
                         <button
                           disabled
                           className="bg-gray-200 text-gray-500 px-4 py-2 rounded-lg text-sm font-semibold cursor-not-allowed"
                         >
                           Resolved
                         </button>
-                      )}
-
-                      {complaint.status !== "Resolved" &&
-                        complaint.priority === "High" &&
-                        complaint.assignedTo === "Unassigned" && (
+                      ) : complaint.assignedToId ? (
+                        <button
+                          onClick={() => {
+                            setSelectedComplaint(complaint);
+                            setAssignToFaculty(complaint.assignedToId);
+                            setAiSuggestion(null);
+                          }}
+                          className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-200 transition"
+                        >
+                          Reassign
+                        </button>
+                      ) : (
+                        <>
                           <button
-                            onClick={() => aiAssignNow(complaint)}
-                            disabled={aiLoading}
-                            className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition-all disabled:opacity-50"
+                            onClick={() => {
+                              setSelectedComplaint(complaint);
+                              setAssignToFaculty("");
+                              setAiSuggestion(null);
+                            }}
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
                           >
-                            {aiLoading ? "AI Assigning..." : "⚡ AI Assign Now"}
+                            Assign Faculty
                           </button>
-                        )}
+
+                          {complaint.priority === "High" && (
+                            <button
+                              onClick={() => aiAssignNow(complaint)}
+                              disabled={aiLoading}
+                              className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition-all disabled:opacity-50"
+                            >
+                              {aiLoading
+                                ? "AI Assigning..."
+                                : "⚡ AI Assign Now"}
+                            </button>
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

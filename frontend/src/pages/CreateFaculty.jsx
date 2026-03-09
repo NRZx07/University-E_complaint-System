@@ -16,11 +16,11 @@ const CreateFaculty = () => {
     e.preventDefault();
 
     try {
-      const res = await apiFetch("/admin/faculty", {
+      // ✅ Add /api to the front of the path
+      const res = await apiFetch("/api/admin/faculty", {
         method: "POST",
         body: JSON.stringify(form),
       });
-
       const data = await res.json();
       console.log("STATUS:", res.status, data);
 

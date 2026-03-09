@@ -47,7 +47,6 @@ const FacultyDashboard = () => {
 
   // ✅ Status update API call
   const handleStatusUpdate = async (complaintId, newStatusUI) => {
-    // UI statuses -> backend statuses
     const mapStatusToBackend = {
       Pending: "submitted",
       "In Progress": "in-progress",
@@ -58,6 +57,7 @@ const FacultyDashboard = () => {
     if (!backendStatus) return alert("Invalid status");
 
     try {
+      // ✅ FIXED ROUTE: Added /faculty/ to the path to resolve 404
       const res = await fetch(
         `${BACKEND_URL}/api/faculty/complaints/${complaintId}/status`,
         {
@@ -66,10 +66,18 @@ const FacultyDashboard = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             status: backendStatus,
-            note: updateNote, // ✅ optional, backend may ignore if not implemented
+            note: updateNote,
           }),
-        }
+        },
       );
+
+      // ✅ SAFETY CHECK: Prevent SyntaxError if server returns HTML
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error(
+          "Server sent back HTML instead of JSON. Check backend route.",
+        );
+      }
 
       const data = await res.json();
 
@@ -78,14 +86,18 @@ const FacultyDashboard = () => {
         return;
       }
 
-      // ✅ Refresh list after update
+      console.log(
+        "✅ Backend confirmed status change. Emails should trigger now.",
+      );
+
+      // Refresh list
       await fetchAssignedComplaints();
 
       setUpdateNote("");
       setSelectedComplaint(null);
     } catch (err) {
       console.error(err);
-      alert("Server error while updating status");
+      alert(err.message || "Server error while updating status");
     }
   };
 
@@ -116,7 +128,7 @@ const FacultyDashboard = () => {
     }
   };
 
-  // ✅ Convert backend complaint to your UI format (NO UI change)
+  // ✅ Convert backend complaint to your UI format
   const mapComplaintForUI = (c) => {
     const statusMap = {
       submitted: "Pending",
@@ -131,7 +143,7 @@ const FacultyDashboard = () => {
     };
 
     return {
-      _id: c._id, // keep backend id
+      _id: c._id,
       id: c._id?.slice(-6)?.toUpperCase() || "CMP",
       title: c.title,
       category: c.category,
@@ -147,13 +159,13 @@ const FacultyDashboard = () => {
   const uiComplaints = complaints.map(mapComplaintForUI);
 
   const pendingCount = uiComplaints.filter(
-    (c) => c.status === "Pending"
+    (c) => c.status === "Pending",
   ).length;
   const inProgressCount = uiComplaints.filter(
-    (c) => c.status === "In Progress"
+    (c) => c.status === "In Progress",
   ).length;
   const resolvedCount = uiComplaints.filter(
-    (c) => c.status === "Resolved"
+    (c) => c.status === "Resolved",
   ).length;
 
   return (
@@ -316,14 +328,14 @@ const FacultyDashboard = () => {
                         </span>
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(
-                            complaint.priority
+                            complaint.priority,
                           )}`}
                         >
                           {complaint.priority} Priority
                         </span>
                       </div>
 
-                      {/* ✅ show uploaded images */}
+                      {/* Uploaded images */}
                       {complaint.images && complaint.images.length > 0 && (
                         <div className="flex flex-wrap gap-3 mt-4">
                           {complaint.images.map((img, idx) => (
@@ -341,7 +353,7 @@ const FacultyDashboard = () => {
                     <div className="mt-4 md:mt-0 md:ml-4">
                       <span
                         className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(
-                          complaint.status
+                          complaint.status,
                         )} block text-center mb-3`}
                       >
                         {complaint.status}
